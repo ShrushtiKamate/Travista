@@ -1,0 +1,106 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="min-h-screen flex items-center justify-center px-4 py-8">
+
+  <div class="bg-[#1e1e1e] border border-gray-700 shadow-xl rounded-2xl p-6 sm:p-8 max-w-4xl w-full">
+
+    <h2 class="text-3xl font-bold text-white text-center mb-6">
+      ✏️ Edit Listing
+    </h2>
+
+    <!-- EDIT FORM -->
+    <form 
+      id="editForm"
+      method="POST"
+      action="/listings/<%= listing._id %>?_method=PUT"
+      enctype="multipart/form-data"
+      class="space-y-4"
+      novalidate
+    >
+
+      <!-- Basic Fields -->
+      <% const fields = ["title", "description", "price", "location", "country"]; %>
+      <% fields.forEach(field => { %>
+        <div>
+          <label class="text-gray-300 mb-1 block capitalize"><%= field %></label>
+          <input
+            type="text"
+            name="<%= field %>"
+            value="<%= listing[field] %>"
+            required
+            class="p-3 w-full rounded-md bg-white/10 text-white border border-white/20 placeholder-gray-400 focus:outline-none"
+          />
+        </div>
+      <% }) %>
+
+      <!-- SHOW EXISTING IMAGES -->
+      <div>
+        <p class="text-gray-300 mb-2 font-medium">Current Images:</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <% listing.images.forEach(img => { %>
+            <div>
+              <img 
+                src="<%= img.url %>"
+                class="w-full h-32 object-cover rounded-lg border border-gray-600"
+              />
+            </div>
+          <% }) %>
+        </div>
+
+        <small class="text-gray-400 mt-1 block">
+          Existing images will remain. Uploading new ones will add to the gallery.
+        </small>
+      </div>
+
+      <!-- ADD NEW IMAGES -->
+      <div>
+        <label class="text-gray-300 mb-1 block">Add More Images:</label>
+        <input 
+          type="file"
+          name="images"
+          multiple
+          accept="image/*"
+          class="block w-full text-white file:bg-yellow-400 file:text-black file:px-4 file:py-2 file:rounded-lg"
+        />
+        <small class="text-gray-400 block mt-1">You can upload up to 5 additional images.</small>
+      </div>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="w-full bg-yellow-400 text-black font-semibold py-3 rounded-lg hover:bg-yellow-500 transition"
+      >
+        Update Listing
+      </button>
+
+    </form>
+
+    <!-- Back Link -->
+    <a href="/listings" class="mt-4 block text-center text-yellow-400 hover:text-yellow-500 underline">
+      ← Back to Listings
+    </a>
+
+  </div>
+</div>
+
+<script>
+  // Simple validation
+  const form = document.getElementById('editForm');
+
+  form.addEventListener('submit', function(e) {
+    const requiredInputs = form.querySelectorAll('input[required]');
+    let valid = true;
+
+    requiredInputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.classList.add('border-red-500');
+        valid = false;
+      } else {
+        input.classList.remove('border-red-500');
+      }
+    });
+
+    if (!valid) e.preventDefault();
+  });
+</script>

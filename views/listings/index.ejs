@@ -1,0 +1,134 @@
+<% layout("layouts/boilerplate") %>
+
+<!-- Page Background -->
+<div class="relative min-h-[80vh] bg-fixed bg-center bg-cover">
+
+  <!-- Dark blurred overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
+
+  <!-- Actual Content -->
+  <div class="relative z-10 container mx-auto px-4 py-6">
+
+    <!-- Filters & Icons Bar -->
+    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl shadow-md 
+                flex flex-col lg:flex-row flex-wrap lg:items-center 
+                justify-between gap-4 mb-6">
+
+      <!-- Icons Row -->
+      <div class="flex overflow-x-auto gap-4 w-full lg:w-auto">
+        <% const icons = [
+          { icon: "fa-fire", label: "Trending" },
+          { icon: "fa-bed", label: "Rooms" },
+          { icon: "fa-city", label: "Iconic Cities" },
+          { icon: "fa-mountain", label: "Mountains" },
+          { icon: "fa-chess-rook", label: "Castles" },
+          { icon: "fa-swimmer", label: "Pools" },
+          { icon: "fa-campground", label: "Camping" },
+          { icon: "fa-tractor", label: "Farms" },
+          { icon: "fa-snowflake", label: "Arctic" }
+        ]; %>
+
+        <% icons.forEach(({ icon, label }) => { %>
+          <div class="flex flex-col items-center bg-white/20 hover:bg-[#f97316] 
+                      text-white hover:text-black px-4 py-2 rounded-lg shadow-md 
+                      transition-all duration-200 cursor-pointer min-w-[80px]">
+            <i class="fas <%= icon %> text-xl mb-1"></i>
+            <span class="text-xs font-semibold"><%= label %></span>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Coupon Input -->
+      <div class="flex flex-1 flex-wrap sm:flex-nowrap items-center gap-3 
+                  bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl shadow-md 
+                  min-w-[260px]">
+
+        <span class="text-sm text-white font-medium whitespace-nowrap">Apply Coupon</span>
+
+        <input
+          id="couponInput"
+          type="text"
+          placeholder="Enter coupon code"
+          class="px-3 py-2 text-sm rounded-md bg-white/20 text-white 
+                 placeholder-gray-300 border border-white/20 
+                 focus:ring-2 focus:ring-yellow-400 w-full sm:w-52 lg:w-64"
+        />
+
+        <button
+          id="applyCouponBtn"
+          class="bg-orange-400 hover:bg-orange-500 text-black 
+                 font-semibold text-sm px-4 py-2 rounded-md transition">
+          <i class="fas fa-check mr-1"></i>Apply
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Listings Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+                lg:grid-cols-4 gap-8">
+
+      <% for (let listing of allListings) { %>
+
+        <div class="bg-zinc-900 bg-opacity-80 rounded-xl overflow-hidden 
+                    shadow-md hover:shadow-xl transition duration-300 
+                    border border-gray-600">
+
+          <!-- Image -->
+          <a href="/listings/<%= listing._id %>">
+            <img src="<%= listing.images[0].url %>"
+                 alt="<%= listing.title %>"
+                 class="w-full h-48 object-cover hover:scale-105 
+                        transition duration-300" />
+          </a>
+
+          <!-- Details -->
+          <div class="p-4">
+            <a href="/listings/<%= listing._id %>"
+               class="block text-xl font-bold text-white 
+                      hover:text-orange-400 truncate">
+              <%= listing.title %>
+            </a>
+
+            <p class="text-gray-300 text-sm mt-1 mb-3 line-clamp-2">
+              <%= listing.description %>
+            </p>
+
+            <p class="text-orange-400 font-semibold mb-1 original-price"
+               data-original="<%= listing.price %>">
+              ₹ <%= listing.price.toLocaleString("en-IN") %>
+            </p>
+
+            <p class="text-gray-400 text-sm">
+              📍 <%= listing.location %>, <%= listing.country %>
+            </p>
+          </div>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Coupon Script -->
+<script>
+  const applyBtn = document.getElementById("applyCouponBtn");
+  const couponInput = document.getElementById("couponInput");
+
+  applyBtn.addEventListener("click", () => {
+    const coupon = couponInput.value.trim();
+    if (!coupon) return;
+
+    const prices = document.querySelectorAll(".original-price");
+    prices.forEach((el) => {
+      const original = Number(el.dataset.original);
+      const discounted = Math.round(original * 0.9);
+      el.innerHTML = 
+        `<span class='line-through opacity-70 mr-2'>₹ ${original.toLocaleString("en-IN")}</span>
+         ₹ ${discounted.toLocaleString("en-IN")}`;
+    });
+  });
+</script>

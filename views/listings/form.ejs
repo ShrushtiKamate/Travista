@@ -1,0 +1,146 @@
+<% layout("layouts/boilerplate") %>
+
+<!-- Back Button -->
+<a href="/listings"
+  class="absolute top-4 left-4 z-50 text-gray-300 font-medium hover:text-purple-400 transition-all bg-white/5 px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/10 text-sm sm:text-base">
+  ← Back to Listings
+</a>
+
+<!-- Center Form Container -->
+<div class="flex items-center justify-center min-h-[80vh] p-4 sm:p-6">
+
+  <div class="backdrop-blur-2xl bg-white/5 border border-white/10 shadow-xl rounded-3xl p-6 sm:p-10 w-full max-w-md sm:max-w-2xl">
+
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 sm:mb-8 tracking-wide text-purple-400">
+      🛎️ Add a New Hotel
+    </h1>
+
+    <!-- FORM -->
+    <form 
+      action="/listings" 
+      enctype="multipart/form-data" 
+      method="POST" 
+      class="needs-validation space-y-4 sm:space-y-5" 
+      novalidate
+    >
+
+      <!-- TITLE -->
+      <div>
+        <label class="form-label text-gray-300 font-medium mb-1">Title</label>
+        <input 
+          type="text" 
+          name="title" 
+          placeholder="e.g., Ocean View Resort" 
+          required
+          class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white"
+        />
+        <div class="invalid-feedback">Hotel kaa naam toh likh 😄</div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div>
+        <label class="form-label text-gray-300 font-medium mb-1">Description</label>
+        <input 
+          type="text" 
+          name="description" 
+          placeholder="Brief about the hotel..." 
+          required
+          class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400"
+        />
+        <div class="invalid-feedback">Description bhi add karna hota hai 😭</div>
+      </div>
+
+      <!-- IMAGES (MULTIPLE) -->
+      <div>
+        <label class="form-label text-gray-300 font-medium mb-1">Upload Images</label>
+        <input 
+          type="file" 
+          name="images" 
+          multiple
+          class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400"
+        />
+        <small class="text-gray-400 block mt-1 text-sm">You can upload up to 5 images.</small>
+      </div>
+
+      <!-- LOCATION + COUNTRY -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label text-gray-300 font-medium">Location</label>
+          <input 
+            type="text" 
+            name="location" 
+            placeholder="City or Region" 
+            required
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400"
+          />
+          <div class="invalid-feedback">Location bhi zaroori hai 🙂</div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label text-gray-300 font-medium">Country</label>
+          <input 
+            type="text" 
+            name="country" 
+            placeholder="Country" 
+            required
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400"
+          />
+          <div class="invalid-feedback">Country ka naam toh pata hoga? 😭</div>
+        </div>
+      </div>
+
+      <!-- PRICE -->
+      <div>
+        <label class="form-label text-gray-300 font-medium mb-1">Price (₹)</label>
+        <input 
+          type="number" 
+          name="price" 
+          placeholder="Per night price" 
+          required
+          class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400"
+        />
+        <div class="invalid-feedback">Price daal de please 😕</div>
+      </div>
+
+      <!-- TERMS CHECKBOX -->
+      <div class="form-check mt-3">
+        <input 
+          class="form-check-input" 
+          type="checkbox" 
+          id="termsCheck" 
+          required 
+        />
+        <label class="form-check-label" for="termsCheck">
+          Agree to terms and conditions
+        </label>
+        <div class="invalid-feedback">Terms accept karna padta hai 😅</div>
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl text-lg font-semibold shadow-md hover:from-purple-700 hover:to-pink-600 transition-all">
+        ➕ Add Hotel
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- Bootstrap Validation Script -->
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>

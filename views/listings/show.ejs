@@ -1,0 +1,157 @@
+<% layout("layouts/boilerplate") %>
+
+<!-- Background Overlay -->
+<div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+<!-- MAIN WRAPPER -->
+<div class="relative z-10 flex items-center justify-center min-h-[90vh] px-4 py-10">
+
+  <div class="bg-[#1e1e1e] text-white bg-opacity-90 backdrop-blur-sm 
+              rounded-xl shadow-2xl max-w-xl w-full overflow-hidden">
+
+    <!-- Back Button -->
+    <div class="flex items-center p-4 border-b border-gray-600">
+      <a href="/listings" class="hover:text-orange-400 font-semibold flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </a>
+    </div>
+
+    <!-- Listing Image -->
+    <!-- <img src="<%= listing.image.url %>" 
+         alt="<%= listing.title %>" 
+         class="w-full h-60 object-cover" /> -->
+    <img src="<%= listing.images[0].url %>"
+     alt="<%= listing.title %>"
+    class="w-full h-60 object-cover" />
+
+    <!-- Listing Info -->
+    <div class="p-6 space-y-4">
+      <h1 class="text-2xl font-bold text-white">🏠 <%= listing.title %></h1>
+
+      <p class="text-white text-lg">
+        💰 <b>Price:</b> ₹ <%= listing.price.toLocaleString("en-IN") %>
+      </p>
+
+      <p class="text-white text-lg">
+        📍 <b>Location:</b> <%= listing.location %>, <%= listing.country %>
+      </p>
+
+      <p class="text-white leading-relaxed">
+        📝 <%= listing.description %>
+      </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-2 px-4 pb-4">
+      <a href="/listings/<%= listing._id %>/edit"
+         class="inline-flex items-center px-3 py-1 bg-blue-600 text-white 
+                rounded-lg hover:bg-blue-700 transition text-sm font-medium shadow">
+        <i class="fa-solid fa-pen mr-1"></i>
+        Edit
+      </a>
+
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+        <button
+          class="inline-flex items-center px-3 py-1 bg-red-600 
+                 text-white rounded-lg hover:bg-red-700 
+                 transition text-sm font-medium shadow">
+          <i class="fa-solid fa-trash mr-1"></i>
+          Delete
+        </button>
+      </form>
+    </div>
+
+    <!-- REVIEW SECTION -->
+    <div class="px-6 pb-6">
+      <h3 class="text-xl font-semibold text-white mb-4 border-b border-gray-600 pb-2">
+        📝 Leave a Review
+      </h3>
+
+      <form method="POST" action="/listings/<%= listing._id %>/reviews" class="space-y-4">
+
+        <!-- Rating (Starability Slot) -->
+        <fieldset class="starability-slot">
+          <legend class="block text-sm font-medium text-gray-300 mb-2">
+            Rate this listing:
+          </legend>
+
+          <input type="radio" id="no-rate" name="rating" class="input-no-rate" value="0" checked />
+          <input type="radio" id="rate1" name="rating" value="1" />
+          <label for="rate1">1 star</label>
+          <input type="radio" id="rate2" name="rating" value="2" />
+          <label for="rate2">2 stars</label>
+          <input type="radio" id="rate3" name="rating" value="3" />
+          <label for="rate3">3 stars</label>
+          <input type="radio" id="rate4" name="rating" value="4" />
+          <label for="rate4">4 stars</label>
+          <input type="radio" id="rate5" name="rating" value="5" />
+          <label for="rate5">5 stars</label>
+        </fieldset>
+
+        <!-- Comment -->
+        <div class="relative w-full max-w-md">
+          <label for="comment" class="block text-sm font-medium text-gray-300 mb-1">
+            Comment
+          </label>
+
+          <textarea name="comment" id="comment" rows="4" required
+                    placeholder="Write your thoughts..."
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white 
+                           border border-gray-600 focus:outline-none 
+                           focus:ring-2 focus:ring-blue-500 resize-none">
+          </textarea>
+        </div>
+
+        <button type="submit"
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                       font-medium rounded-lg shadow">
+          Submit Review
+        </button>
+
+      </form>
+    </div>
+
+    <!-- SHOW REVIEWS -->
+    <div class="px-6 pb-8">
+      <h3 class="text-xl font-semibold text-white mb-4 border-b border-gray-600 pb-2">
+        📣 Reviews
+      </h3>
+
+      <ul class="space-y-4">
+        <% if (listing.reviews.length > 0) { %>
+
+          <% listing.reviews.forEach(review => { %>
+            <li class="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+
+              <p><span class="font-semibold text-blue-400">Rating:</span> <%= review.rating %> ⭐</p>
+              <p><span class="font-semibold text-blue-400">Comment:</span> <%= review.comment %></p>
+              <p class="text-sm text-gray-400 mt-1">
+                🗓️ <%= new Date(review.createdAt).toLocaleDateString() %>
+              </p>
+
+              <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                <div class="flex justify-end mt-2">
+                  <button class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded-lg text-sm shadow">
+                    <i class="fa-solid fa-trash mr-1"></i> Delete
+                  </button>
+                </div>
+              </form>
+
+            </li>
+          <% }) %>
+
+        <% } else { %>
+          <li class="text-gray-300 italic">No reviews yet. Be the first!</li>
+        <% } %>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const flash = document.getElementById("flashji");
+  if (flash) setTimeout(() => flash.style.display = "none", 2500);
+</script>

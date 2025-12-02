@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="min-h-screen flex items-center justify-center bg-black/80 px-4">
+
+  <div class="bg-[#1e1e1e] border border-gray-700 shadow-2xl 
+              rounded-2xl p-8 max-w-lg w-full text-center">
+
+    <!-- Icon -->
+    <div class="text-red-500 text-6xl mb-4">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <!-- Error Status -->
+    <h1 class="text-3xl font-bold text-red-400 mb-2">
+      Error <%= statuscode %>
+    </h1>
+
+    <!-- Error Message -->
+    <p class="text-gray-300 text-lg mb-6">
+      <%= message %>
+    </p>
+
+    <!-- Back Home Button -->
+    <a href="/"
+       class="inline-block bg-yellow-400 text-black font-semibold px-6 py-3 
+              rounded-xl hover:bg-yellow-500 transition shadow-lg">
+      Go Back Home
+    </a>
+
+    <!-- Optional: Link to Listings -->
+    <a href="/listings" 
+       class="block mt-3 text-gray-300 hover:text-white underline">
+      Browse Listings
+    </a>
+  </div>
+
+</div>
