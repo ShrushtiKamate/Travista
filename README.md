@@ -1,8 +1,8 @@
-Travista
+**Travista**
 
 Travista is a full-stack travel listing web application where users can explore, add, review, and manage hotel listings.
 
-🚀 Features
+**🚀 Features**
 
 User authentication (Signup/Login/Logout) using Passport.js
 
@@ -14,7 +14,7 @@ Authorization
 
 Flash messages and clean UI with EJS
 
-🛠 Tech Stack
+**🛠 Tech Stack**
 
 Backend: Node.js, Express.js, MongoDB, Mongoose
 
